@@ -1,3 +1,4 @@
+<%@page import="org.teams.casadomotica.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" >
@@ -37,11 +38,11 @@
                             <form>
                                 <div class="form-group">
                                     <label class="form-control-label">USUARIO</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="Usuarioo" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">CONTRASEÑA</label>
-                                    <input type="password" class="form-control" i>
+                                    <input type="password" name="contrasena" class="form-control" i>
                                 </div>
 
                                 <div class="col-lg-12 loginbttm">
@@ -49,10 +50,37 @@
                                         <!-- Error Message -->
                                     </div>
                                     <div class="col-lg-6 login-btm login-button">
-                                        <button type="submit" class="btn btn-outline-primary">INICIAR SESION</button>
-                                        <a href="registro.jsp" class="btn btn-outline-primary">REGISTRARSE</a>
+                                        <button type="submit" name="act" value="iniciarSesion" class="btn btn-outline-primary">INICIAR SESION</button>
+                                        <%
+                                            ApiClient cliente = new ApiClient();
+                                            
+                                            String act = request.getParameter("act");
+
+                                            if (act == null) {
+                                            } else if (act.equals("iniciarSesion")) {
+                                                if (request.getParameter("Usuarioo") != null && request.getParameter("contrasena") != null) {
+                                                    try {
+
+                                                        Usuario usuario = new Usuario();
+                                                        usuario.setUsuario(request.getParameter("Usuarioo"));
+                                                        usuario.setContrasena(request.getParameter("contrasena"));
+                                                        Usuario usu = cliente.getUsuario(usuario, Usuario.class)
+
+                                                        if (usu != null) {
+                                                           response.sendRedirect("/focos.jsp");
+                                                        }
+                                                    } catch (Exception e) {
+                                                    }
+                                                }
+                                            }
+                                        %>
+
+                                        <script>
+                                        </script>
+                                        <div>
+                                            <a href="registro.jsp" class="btn btn-outline-primary">REGISTRARSE</a>
+                                        </div>
                                     </div>
-                                </div>
                             </form>
                         </div>
                     </div>

@@ -4,6 +4,8 @@
     Author     : alberto
 --%>
 
+<%@page import="org.teams.casadomotica.ClientRest"%>
+<%@page import="org.teams.casadomotica.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -40,24 +42,13 @@
                     <div class="col-lg-12 login-form">
                         <div class="col-lg-12 login-form">
                             <form>
-                                <div class="form-group">
-                                    <label class="form-control-label">Nombre</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label">Apellido</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label" >Correo</label>
-                                    <input type="text" class="form-control">
                                 </div><div class="form-group">
                                     <label class="form-control-label">Nombre de usuario</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="nombreUsuario" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Contraseña</label>
-                                    <input type="password" class="form-control" i>
+                                    <input type="password" name="contrasena" class="form-control" i>
                                 </div>
 
                                 <div class="col-lg-12 loginbttm">
@@ -65,9 +56,32 @@
                                         <!-- Error Message -->
                                     </div>
                                     <div class="col-lg-6 login-btm login-button">
-                                        <div <button type="submit" class="btn btn-outline-primary">guardar</button>
+                                        <div <button name="act" value="guardar" type="submit" class="btn btn-outline-primary">guardar</button>
+                                            <%
+                                                Usuario usuario;
+                                                ClientRest cliente = new ClientRest();
+                                                String act = request.getParameter("act");
+
+                                                if (act == null) {
+                                                } else if (act.equals("guardar")) {
+                                                    if (request.getParameter("nombreUsuario") != null && request.getParameter("contrasena") != null) {
+                                                        try {
+
+                                                            usuario = new Usuario();
+                                                            usuario.setUsuario(request.getParameter("usuario"));
+                                                            usuario.setContrasena(request.getParameter("contrasena"));
+                                                            Usuario usu = cliente.postUsuario(usuario, Usuario.class);
+
+                                                            if (usu != null) {
+                                                                response.sendRedirect("/focos.jsp");
+                                                            }
+                                                        } catch (Exception e) {
+                                                        }
+                                                    }
+                                                }
+                                            %>
+                                        </div>
                                     </div>
-                                </div>
                             </form>
                         </div>
                     </div>
