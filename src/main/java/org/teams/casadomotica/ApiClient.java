@@ -26,7 +26,7 @@ public class ApiClient {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8084//webresources";
+    private static final String BASE_URI = "http://localhost:8080/APICasaD/webresources";
 
     public ApiClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
@@ -58,9 +58,14 @@ public class ApiClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
     }
 
-//    public void deleteAlarma(Object requestEntity) throws ClientErrorException {
-//        webTarget.path("deletealarma").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).delete(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
-//    }
+    public void deleteAlarma(String id) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        if (id != null) {
+            resource = resource.queryParam("id", id);
+        }
+        resource = resource.path("deletealarma");
+        resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).delete(String.class);
+    }
 
     public <T> T putAlarma(Object requestEntity, Class<T> responseType) throws ClientErrorException {
         return webTarget.path("cambioalarma").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), responseType);
@@ -76,12 +81,17 @@ public class ApiClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
-//    public void deleteDispositivo(Object requestEntity) throws ClientErrorException {
-//        webTarget.path("deletedispositivo").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).delete(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
-//    }
+    public void deleteDispositivo(String id) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        if (id != null) {
+            resource = resource.queryParam("id", id);
+        }
+        resource = resource.path("deletedispositivo");
+        resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).delete(String.class);
+    }
 
     public void close() {
         client.close();
     }
-    
+
 }

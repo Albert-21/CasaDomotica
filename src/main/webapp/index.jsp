@@ -64,9 +64,9 @@
                                                         Usuario usuario = new Usuario();
                                                         usuario.setUsuario(request.getParameter("Usuarioo"));
                                                         usuario.setContrasena(request.getParameter("contrasena"));
-                                                        Usuario usu = cliente.getUsuario(usuario, Usuario.class)
+                                                      
 
-                                                        if (usu != null) {
+                                                        if (cliente.getUsuario(usuario, Usuario.class) != null) {
                                                            response.sendRedirect("/focos.jsp");
                                                         }
                                                     } catch (Exception e) {
