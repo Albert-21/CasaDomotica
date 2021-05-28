@@ -9,6 +9,20 @@ public class Dispositivo {
     private String tipo;
     private String usuario;
 
+    public Dispositivo(String id, String nombre, String estado, String descripcion, String tipo, String usuario) {
+        this.id = id;
+        this.nombre = nombre;
+        this.estado = estado;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.usuario = usuario;
+    }
+
+    Dispositivo() {
+    }
+    
+    
+
     public String getId() {
         return id;
     }

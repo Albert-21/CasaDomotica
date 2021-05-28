@@ -1,6 +1,31 @@
+<%@page import="org.teams.casadomotica.Usuario"%>
 <%@page import="org.teams.casadomotica.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<%
+    ApiResource cliente = new ApiResource();
+
+    String act = request.getParameter("act");
+
+    if (act == null) {
+    } else if (act.equals("iniciarSesion")) {
+        if (request.getParameter("Usuarioo") != null && request.getParameter("contrasena") != null) {
+            try {
+
+                Usuario usuario = new Usuario();
+                usuario.setUsuario(request.getParameter("Usuarioo"));
+                usuario.setContrasena(request.getParameter("contrasena"));
+                Usuario usu = cliente.login(usuario);
+
+                if (usu != null) {
+                    response.sendRedirect("/focos.jsp");
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+%>
 <html lang="en" >
     <head>
         <meta charset="UTF-8">
@@ -51,29 +76,6 @@
                                     </div>
                                     <div class="col-lg-6 login-btm login-button">
                                         <button type="submit" name="act" value="iniciarSesion" class="btn btn-outline-primary">INICIAR SESION</button>
-                                        <%
-                                            ApiClient cliente = new ApiClient();
-                                            
-                                            String act = request.getParameter("act");
-
-                                            if (act == null) {
-                                            } else if (act.equals("iniciarSesion")) {
-                                                if (request.getParameter("Usuarioo") != null && request.getParameter("contrasena") != null) {
-                                                    try {
-
-                                                        Usuario usuario = new Usuario();
-                                                        usuario.setUsuario(request.getParameter("Usuarioo"));
-                                                        usuario.setContrasena(request.getParameter("contrasena"));
-                                                      
-
-                                                        if (cliente.getUsuario(usuario, Usuario.class) != null) {
-                                                           response.sendRedirect("/focos.jsp");
-                                                        }
-                                                    } catch (Exception e) {
-                                                    }
-                                                }
-                                            }
-                                        %>
 
                                         <script>
                                         </script>

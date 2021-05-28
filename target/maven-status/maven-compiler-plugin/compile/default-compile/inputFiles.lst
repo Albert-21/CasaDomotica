@@ -1,2 +1,4 @@
-/home/alberto/NetBeansProjects/CasaDomotica/src/main/java/com/tams/casadomotica/resources/JavaEE8Resource.java
-/home/alberto/NetBeansProjects/CasaDomotica/src/main/java/com/tams/casadomotica/JAXRSConfiguration.java
+/home/alberto/NetBeansProjects/CasaDomotica/src/main/java/org/teams/casadomotica/Alarma.java
+/home/alberto/NetBeansProjects/CasaDomotica/src/main/java/org/teams/casadomotica/DepartamentosApi.java
+/home/alberto/NetBeansProjects/CasaDomotica/src/main/java/org/teams/casadomotica/Usuario.java
+/home/alberto/NetBeansProjects/CasaDomotica/src/main/java/org/teams/casadomotica/Dispositivo.java

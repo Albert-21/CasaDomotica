@@ -4,7 +4,8 @@
     Author     : alberto
 --%>
 
-<%@page import="org.teams.casadomotica.ClientRest"%>
+<%@page import="org.teams.casadomotica.ApiResource"%>
+<%@page import="org.teams.casadomotica.ClientApi"%>
 <%@page import="org.teams.casadomotica.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -59,7 +60,7 @@
                                         <div <button name="act" value="guardar" type="submit" class="btn btn-outline-primary">guardar</button>
                                             <%
                                                 Usuario usuario;
-                                                ClientRest cliente = new ClientRest();
+                                                ApiResource cliente = new ApiResource();
                                                 String act = request.getParameter("act");
 
                                                 if (act == null) {
@@ -70,9 +71,9 @@
                                                             usuario = new Usuario();
                                                             usuario.setUsuario(request.getParameter("usuario"));
                                                             usuario.setContrasena(request.getParameter("contrasena"));
-                                                            Usuario usu = cliente.postUsuario(usuario, Usuario.class);
+                                                            boolean res = cliente.guardarUsuario(usuario);
 
-                                                            if (usu != null) {
+                                                            if (res) {
                                                                 response.sendRedirect("/focos.jsp");
                                                             }
                                                         } catch (Exception e) {

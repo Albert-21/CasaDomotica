@@ -1,2 +1,2 @@
-com/tams/casadomotica/resources/JavaEE8Resource.class
-com/tams/casadomotica/JAXRSConfiguration.class
+org/teams/casadomotica/Dispositivo.class
+org/teams/casadomotica/Usuario.class
