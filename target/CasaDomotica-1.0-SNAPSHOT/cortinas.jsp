@@ -20,7 +20,7 @@
     } else if (act.equals("encender")) {
         if (request.getParameter("idCortina") != null && request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
             try {
-                Dispositivo dis = cliente.mostrarEstadoDispositivo(request.getParameter("idFoco"));
+                Dispositivo dis = cliente.mostrarEstadoDispositivo(request.getParameter("idCortina"));
                 if (dis != null) {
                     Dispositivo dispositivo = new Dispositivo();
                     dispositivo.setId(request.getParameter("idCortina"));
