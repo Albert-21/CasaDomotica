@@ -1,2 +1,5 @@
+org/teams/casadomotica/ClientApi.class
 org/teams/casadomotica/Dispositivo.class
+org/teams/casadomotica/ApiResource.class
+org/teams/casadomotica/Alarma.class
 org/teams/casadomotica/Usuario.class

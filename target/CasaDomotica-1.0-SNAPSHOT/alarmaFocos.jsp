@@ -4,7 +4,62 @@
     Author     : alberto
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="org.teams.casadomotica.Alarma"%>
+<%@page import="org.teams.casadomotica.ApiResource"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    ApiResource cliente = new ApiResource();
+    List<Alarma> lista = null;
+
+    String act = request.getParameter("act");
+
+    if (act == null) {
+    } else if (act.equals("agregar")) {
+        if (request.getParameter("idFoco") != null && request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
+            try {
+                Alarma alarma = new Alarma();
+                alarma.setId_dispositivo(request.getParameter("idFoco"));
+                alarma.setId_dispositivo(request.getParameter("idAlarma"));
+                alarma.setNombre(request.getParameter("nombre"));
+                alarma.setDescripcion(request.getParameter("descripcion"));
+                alarma.setEstado("activa");
+                String fecha_Completa = request.getParameter("fecha");
+                alarma.setFecha_inicio(fecha_Completa.substring(0, 13));
+                alarma.setFecha_fin(fecha_Completa.substring(13, 23));
+                alarma.setHora_inicio(request.getParameter("horaEncendido"));
+                alarma.setHora_fin(request.getParameter("horaApagado"));
+
+                cliente.guardarAlarma(alarma);
+                lista = cliente.mostrarAlarmas();
+
+            } catch (Exception e) {
+            }
+        }
+    } else {
+        if (act.equals("borrar")) {
+            if (cliente.borrarAlarma(request.getParameter("idAlarmaBorrar"))) {
+%>
+<script>
+    window.alert("Se elimino correctamente");
+</script>
+<%
+            }else{
+%>
+<script>
+    window.alert("Ocurrio un problema");
+</script>
+<%
+                
+            }
+        }
+    }
+%>
+
+
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -64,13 +119,17 @@
                     <div class="row">
                         <!-- primera columna -->
                         <div class="col-md-4">
-                            <input  class="form-control"type="text" name="idFoco" placeholder="Id">
+                            <input  class="form-control"type="text" name="idFoco" placeholder="Id Foco">
+                        </div>
+                        <div class="col-md-4">
+                            <input  class="form-control"type="text" name="idAlarma" placeholder="Id Alarma">
                         </div>
                         <!-- segunda columna -->
                         <div class="col-md-4">
                             <input  class="form-control"type="text" name="nombre" placeholder="Nombre">
                         </div>
                         <!-- segunda columna -->
+                        <br>
                         <div class="col-md-4">
                             <input  class="form-control"type="text" name="descripcion" placeholder="Descripcion">
                         </div>
@@ -82,7 +141,7 @@
                         <script>
                             $(document).ready(function () {
                                 $(function () {
-                                    $('input[name="daterange"]').daterangepicker({
+                                    $('input[name="fecha"]').daterangepicker({
                                         "startDate": "01/01/2021",
                                         "endDate": "17/01/2021",
                                         opens: 'center',
@@ -97,7 +156,7 @@
                             <form autocomplete="off">
                                 <div >
                                     <div class="col-xl-5 col-lg-3 col-md-2 px-1">
-                                        <div class="input-group input-daterange"> <label>Selecciona el rango para repetir la alarma </label> <input class="" type="text" name="daterange" value="01/01/2018 - 01/15/2018"  /> </div>
+                                        <div class="input-group input-daterange"> <label>Selecciona el rango para repetir la alarma </label> <input class="" type="text" name="fecha" value="01/01/2018 - 01/15/2018"  /> </div>
                                     </div>
                                 </div>
 
@@ -113,39 +172,48 @@
                         </form>
                     </div>
                     <div>
-                        <button class="btn btn-success" type="submit">Agregar</button>
+                        <button class="btn btn-success" type="submit" name="act" value="agregar">Agregar</button>
                     </div>
+                    <br>
+
+                    <div class="col-md-4">
+                        <input  class="form-control"type="text" name="idAlarmaBorrar" placeholder="Id Alarma a borrar">
+                    </div>
+                    <br>
+                    <div class="col-md-4">
+                        <button class="btn btn-danger" type="submit" name="act" value="borrar">Eliminar</button>
+                    </div>
+
                 </div>
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">ID</th>
+                            <th scope="col">ID Alarma</th>
+                            <th scope="col">ID Foco</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Descripción</th>
-                            <th scope="col">Repetir</th>
-                            <th scope="col">Opcion</th>
+                            <th scope="col">Fechas Repetir</th>
+                            <th scope="col">Horario</th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">F-1</th>
-                            <td>Cuarto</td>
-                            <td>Encendido</td>
-                            <td>Este es el foco de la segunda Recamara</td>
-                            <td>01/01/2021 - 01/02/2021</td>
-                            <td><button class="btn btn-danger" type="submit">Eliminar</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">F-2</th>
-                            <td>Garage</td>
-                            <td>Apagado</td>
-                            <td>Es el foco del garage de la parte de afuera</td>
-                            <td>01/01/2021 - 01/02/2021</td>
-                            <td><button class="btn btn-danger" type="submit">Eliminar</button></td>
-
-                        </tr>
+                        <%
+                            if (lista != null) {
+                                for (Alarma elem : lista) {
+                                    out.print("<tr>");
+                                    out.print("<th scope=row>" + elem.getId_alarma() + "</th>");
+                                    out.print("<td>" + elem.getId_dispositivo() + "</td>");
+                                    out.print("<td>" + elem.getNombre() + "</td>");
+                                    out.print("<td>" + elem.getEstado() + "</td>");
+                                    out.print("<td>" + elem.getDescripcion() + "</td>");
+                                    out.print("<td>" + elem.getFecha_inicio() + " - " + elem.getFecha_fin() + "</td>");
+                                    out.print("<td>" + elem.getHora_inicio() + " - " + elem.getHora_fin() + "</td>");
+                                    out.println("</tr>");
+                                }
+                            }
+                        %>
                     </tbody>
                 </table>
                 </body>

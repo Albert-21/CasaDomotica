@@ -18,7 +18,7 @@ public class Dispositivo {
         this.usuario = usuario;
     }
 
-    Dispositivo() {
+    public Dispositivo() {
     }
     
     

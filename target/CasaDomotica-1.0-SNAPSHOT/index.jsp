@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 
 <%
+
     ApiResource cliente = new ApiResource();
 
     String act = request.getParameter("act");
@@ -19,7 +20,8 @@
                 Usuario usu = cliente.login(usuario);
 
                 if (usu != null) {
-                    response.sendRedirect("/focos.jsp");
+                    session.setAttribute("user", usu.getUsuario());
+                    response.sendRedirect("CasaDomotica/focos.jsp");
                 }
             } catch (Exception e) {
             }
@@ -77,8 +79,6 @@
                                     <div class="col-lg-6 login-btm login-button">
                                         <button type="submit" name="act" value="iniciarSesion" class="btn btn-outline-primary">INICIAR SESION</button>
 
-                                        <script>
-                                        </script>
                                         <div>
                                             <a href="registro.jsp" class="btn btn-outline-primary">REGISTRARSE</a>
                                         </div>

@@ -4,7 +4,66 @@
     Author     : alberto
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="org.teams.casadomotica.Dispositivo"%>
+<%@page import="org.teams.casadomotica.ApiResource"%>
+<%@page import="org.teams.casadomotica.ApiResource"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    ApiResource cliente = new ApiResource();
+    List<Dispositivo> lista = null;
+
+    String act = request.getParameter("act");
+
+    if (act == null) {
+    } else if (act.equals("encender")) {
+        if (request.getParameter("idCortina") != null && request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
+            try {
+                Dispositivo dis = cliente.mostrarEstadoDispositivo(request.getParameter("idFoco"));
+                if (dis != null) {
+                    Dispositivo dispositivo = new Dispositivo();
+                    dispositivo.setId(request.getParameter("idCortina"));
+                    dispositivo.setNombre(request.getParameter("nombre"));
+                    dispositivo.setDescripcion(request.getParameter("descripcion"));
+                    dispositivo.setEstado("encendido");
+                    dispositivo.setUsuario(session.getAttribute("user").toString());
+                    cliente.actualizarEstadoDispositivo(dispositivo);
+                    lista = cliente.mostrarDispositivos();
+                } else {
+
+                    Dispositivo dispositivo = new Dispositivo();
+                    dispositivo.setId(request.getParameter("idCortina"));
+                    dispositivo.setNombre(request.getParameter("nombre"));
+                    dispositivo.setDescripcion(request.getParameter("descripcion"));
+                    dispositivo.setEstado("encendido");
+                    dispositivo.setUsuario(session.getAttribute("user").toString());
+                    cliente.guardarDispositivo(dispositivo);
+                    lista = cliente.mostrarDispositivos();
+
+                }
+
+            } catch (Exception e) {
+            }
+        } else {
+            if (act.equals("apagar")) {
+                try {
+                    Dispositivo dispositivo = new Dispositivo();
+                    dispositivo.setId(request.getParameter("idCortina"));
+                    dispositivo.setNombre(request.getParameter("nombre"));
+                    dispositivo.setDescripcion(request.getParameter("descripcion"));
+                    dispositivo.setEstado("apagado");
+                    dispositivo.setUsuario(session.getAttribute("user").toString());
+                    cliente.guardarDispositivo(dispositivo);
+                    lista = cliente.mostrarDispositivos();
+                } catch (Exception e) {
+                }
+
+            }
+
+        }
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -96,18 +155,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">F-1</th>
-                    <td>Cuarto</td>
-                    <td>Encendido</td>
-                    <td>Este es el foco de la segunda Recamara</td>
-                </tr>
-                <tr>
-                    <th scope="row">F-2</th>
-                    <td>Garage</td>
-                    <td>Apagado</td>
-                    <td>Es el foco del garage de la parte de afuera</td>
-                </tr>
+                <%
+                        if (lista != null) {
+                                for (Dispositivo elem : lista) {
+                             out.print("<tr>");
+                             out.print("<th scope=row>" + elem.getId() + "</th>");
+                             out.print("<td>" + elem.getNombre() + "</td>");
+                             out.print("<td>" + elem.getEstado() + "</td>");
+                             out.print("<td>" + elem.getDescripcion() + "</td>");
+                             out.println("</tr>");
+                            }
+
+                        }
+                     %>
             </tbody>
         </table>
     </body>
