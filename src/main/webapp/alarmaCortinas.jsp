@@ -17,7 +17,7 @@
 
     if (act == null) {
     } else if (act.equals("agregar")) {
-        if (request.getParameter("idFoco") != null && request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
+        if (request.getParameter("idCortina") != null && request.getParameter("idAlarma") != null && request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
             try {
                 Alarma alarma = new Alarma();
                 alarma.setId_dispositivo(request.getParameter("idCortina"));
