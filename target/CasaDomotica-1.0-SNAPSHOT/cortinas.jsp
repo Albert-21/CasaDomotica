@@ -17,52 +17,62 @@
     String act = request.getParameter("act");
 
     if (act == null) {
-    } else if (act.equals("encender")) {
-        if (request.getParameter("idCortina") != null && request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
+        lista = cliente.mostrarCortinas();
+    } else if (act.equals("anadir")) {
+        if (request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
             try {
-                Dispositivo dis = cliente.mostrarEstadoDispositivo(request.getParameter("idCortina"));
-                if (dis != null) {
-                    Dispositivo dispositivo = new Dispositivo();
-                    dispositivo.setId(request.getParameter("idCortina"));
-                    dispositivo.setNombre(request.getParameter("nombre"));
-                    dispositivo.setDescripcion(request.getParameter("descripcion"));
-                    dispositivo.setEstado("encendido");
-                    dispositivo.setUsuario(session.getAttribute("user").toString());
-                    cliente.actualizarEstadoDispositivo(dispositivo);
-                    lista = cliente.mostrarDispositivos();
-                } else {
 
                     Dispositivo dispositivo = new Dispositivo();
-                    dispositivo.setId(request.getParameter("idCortina"));
+                    dispositivo.setId(request.getParameter("100"));
                     dispositivo.setNombre(request.getParameter("nombre"));
                     dispositivo.setDescripcion(request.getParameter("descripcion"));
-                    dispositivo.setEstado("encendido");
+                    dispositivo.setEstado("OFF");
+                    dispositivo.setTipo("Cortina");
                     dispositivo.setUsuario(session.getAttribute("user").toString());
                     cliente.guardarDispositivo(dispositivo);
-                    lista = cliente.mostrarDispositivos();
-
-                }
+                    lista = cliente.mostrarFocos();
 
             } catch (Exception e) {
             }
-        } else {
-            if (act.equals("apagar")) {
-                try {
+        }
+    } else if (act.equals("encender")) {
+        if (request.getParameter("idCortina") != null) {
+            try {
+                
                     Dispositivo dispositivo = new Dispositivo();
                     dispositivo.setId(request.getParameter("idCortina"));
                     dispositivo.setNombre(request.getParameter("nombre"));
                     dispositivo.setDescripcion(request.getParameter("descripcion"));
-                    dispositivo.setEstado("apagado");
+                    dispositivo.setEstado("ON");
+                    dispositivo.setTipo("Cortina");
                     dispositivo.setUsuario(session.getAttribute("user").toString());
-                    cliente.guardarDispositivo(dispositivo);
-                    lista = cliente.mostrarDispositivos();
-                } catch (Exception e) {
-                }
+                    cliente.actualizarEstadoDispositivo(dispositivo);
+                    lista = cliente.mostrarFocos();
 
+            } catch (Exception e) {
             }
-
         }
+    } else if (act.equals("apagar")) {
+        try {
+            Dispositivo dispositivo = new Dispositivo();
+            dispositivo.setId(request.getParameter("idCortina"));
+            dispositivo.setNombre(request.getParameter("nombre"));
+            dispositivo.setDescripcion(request.getParameter("descripcion"));
+            dispositivo.setEstado("OFF");
+            dispositivo.setTipo("Cortina");
+            dispositivo.setUsuario(session.getAttribute("user").toString());
+            cliente.actualizarEstadoDispositivo(dispositivo);
+            lista = cliente.mostrarFocos();
+        } catch (Exception e) {
+        }
+    } else if (act.equals("actualizar")) {
+        try {
+            lista = cliente.mostrarCortinas();
+        } catch (Exception e) {
+        }
+
     }
+
 %>
 <!DOCTYPE html>
 <html>
@@ -137,10 +147,15 @@
                 </div>
                 <!-- segunda fila -->
                 <div class="form-group">
-                    <br>
+                     <br>
                     <div>
-                        <button class="btn btn-success" type="submit">Encender</button>
-                        <button class="btn btn-danger" type="submit">Apagar</button>
+                        <button class="btn btn-success" name="act" value="anadir" type="submit">Anadir</button>
+
+                        <button class="btn btn-success" name="act" value="actualizar" type="submit">Actualizar</button>
+
+                        <button class="btn btn-success" name="act" value="encender" type="submit">Encender</button>
+
+                        <button class="btn btn-danger" name="act" value="apagar" type="submit">Apagar</button>
                     </div>
             </form>
 
