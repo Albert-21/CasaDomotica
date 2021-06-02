@@ -21,7 +21,7 @@
 
                 if (usu != null) {
                     session.setAttribute("user", usu.getUsuario());
-                    response.sendRedirect("CasaDomotica/focos.jsp");
+                    response.sendRedirect("focos.jsp");
                 }
             } catch (Exception e) {
             }

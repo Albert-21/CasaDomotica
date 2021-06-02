@@ -18,52 +18,62 @@
     String act = request.getParameter("act");
 
     if (act == null) {
-    } else if (act.equals("encender")) {
-        if (request.getParameter("idFoco") != null && request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
+        lista = cliente.mostrarFocos();
+    } else if (act.equals("anadir")) {
+        if (request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
             try {
-                Dispositivo dis = cliente.mostrarEstadoDispositivo(request.getParameter("idFoco"));
-                if (dis != null) {
-                    Dispositivo dispositivo = new Dispositivo();
-                    dispositivo.setId(request.getParameter("idFoco"));
-                    dispositivo.setNombre(request.getParameter("nombre"));
-                    dispositivo.setDescripcion(request.getParameter("descripcion"));
-                    dispositivo.setEstado("encendido");
-                    dispositivo.setUsuario(session.getAttribute("user").toString());
-                    cliente.actualizarEstadoDispositivo(dispositivo);
-                    lista = cliente.mostrarDispositivos();
-                } else {
 
                     Dispositivo dispositivo = new Dispositivo();
-                    dispositivo.setId(request.getParameter("idFoco"));
+                    dispositivo.setId(request.getParameter("100"));
                     dispositivo.setNombre(request.getParameter("nombre"));
                     dispositivo.setDescripcion(request.getParameter("descripcion"));
-                    dispositivo.setEstado("encendido");
+                    dispositivo.setEstado("OFF");
+                    dispositivo.setTipo("Foco");
                     dispositivo.setUsuario(session.getAttribute("user").toString());
                     cliente.guardarDispositivo(dispositivo);
-                    lista = cliente.mostrarDispositivos();
-
-                }
+                    lista = cliente.mostrarFocos();
 
             } catch (Exception e) {
             }
-        } else {
-            if (act.equals("apagar")) {
-                try {
+        }
+    } else if (act.equals("encender")) {
+        if (request.getParameter("idFoco") != null) {
+            try {
+                
                     Dispositivo dispositivo = new Dispositivo();
                     dispositivo.setId(request.getParameter("idFoco"));
                     dispositivo.setNombre(request.getParameter("nombre"));
                     dispositivo.setDescripcion(request.getParameter("descripcion"));
-                    dispositivo.setEstado("apagado");
+                    dispositivo.setEstado("ON");
+                    dispositivo.setTipo("Foco");
                     dispositivo.setUsuario(session.getAttribute("user").toString());
-                    cliente.guardarDispositivo(dispositivo);
-                    lista = cliente.mostrarDispositivos();
-                } catch (Exception e) {
-                }
+                    cliente.actualizarEstadoDispositivo(dispositivo);
+                    lista = cliente.mostrarFocos();
 
+            } catch (Exception e) {
             }
-
         }
+    } else if (act.equals("apagar")) {
+        try {
+            Dispositivo dispositivo = new Dispositivo();
+            dispositivo.setId(request.getParameter("idFoco"));
+            dispositivo.setNombre(request.getParameter("nombre"));
+            dispositivo.setDescripcion(request.getParameter("descripcion"));
+            dispositivo.setEstado("OFF");
+            dispositivo.setTipo("Foco");
+            dispositivo.setUsuario(session.getAttribute("user").toString());
+            cliente.actualizarEstadoDispositivo(dispositivo);
+            lista = cliente.mostrarFocos();
+        } catch (Exception e) {
+        }
+    } else if (act.equals("actualizar")) {
+        try {
+            lista = cliente.mostrarFocos();
+        } catch (Exception e) {
+        }
+
     }
+
 %>
 <html>
     <head>
@@ -139,6 +149,10 @@
                 <div class="form-group">
                     <br>
                     <div>
+                        <button class="btn btn-success" name="act" value="anadir" type="submit">Anadir</button>
+
+                        <button class="btn btn-success" name="act" value="actualizar" type="submit">Actualizar</button>
+
                         <button class="btn btn-success" name="act" value="encender" type="submit">Encender</button>
 
                         <button class="btn btn-danger" name="act" value="apagar" type="submit">Apagar</button>
@@ -156,21 +170,20 @@
                 </tr>
             </thead>
             <tbody>
-  
 
-                    <%
-                        if (lista != null) {
-                                for (Dispositivo elem : lista) {
-                             out.print("<tr>");
-                             out.print("<th scope=row>" + elem.getId() + "</th>");
-                             out.print("<td>" + elem.getNombre() + "</td>");
-                             out.print("<td>" + elem.getEstado() + "</td>");
-                             out.print("<td>" + elem.getDescripcion() + "</td>");
-                             out.println("</tr>");
-                            }
 
+                <%                    if (lista != null) {
+                        for (Dispositivo elem : lista) {
+                            out.print("<tr>");
+                            out.print("<th scope=row>" + elem.getId() + "</th>");
+                            out.print("<td>" + elem.getNombre() + "</td>");
+                            out.print("<td>" + elem.getEstado() + "</td>");
+                            out.print("<td>" + elem.getDescripcion() + "</td>");
+                            out.println("</tr>");
                         }
-                     %>
+
+                    }
+                %>
 
             </tbody>
         </table>

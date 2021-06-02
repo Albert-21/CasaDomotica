@@ -52,7 +52,7 @@ public class ClientApi {
             if (statusCode != 200) {
                 throw new RuntimeException("Failed with HTTP error code : " + statusCode);
             }
-            
+
             HttpEntity httpEntity = response.getEntity();
             String apiOutput = EntityUtils.toString(httpEntity);
             return apiOutput;
@@ -131,6 +131,40 @@ public class ClientApi {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
             HttpGet getRequest = new HttpGet(URl_BASE + "dispositivos");
+            HttpResponse response = httpClient.execute(getRequest);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                throw new RuntimeException("Failed with HTTP error code : " + statusCode);
+            }
+            HttpEntity httpEntity = response.getEntity();
+            String apiOutput = EntityUtils.toString(httpEntity);
+            return apiOutput;
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    public String GetFocos() throws Exception {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        try {
+            HttpGet getRequest = new HttpGet(URl_BASE + "focos");
+            HttpResponse response = httpClient.execute(getRequest);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                throw new RuntimeException("Failed with HTTP error code : " + statusCode);
+            }
+            HttpEntity httpEntity = response.getEntity();
+            String apiOutput = EntityUtils.toString(httpEntity);
+            return apiOutput;
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    public String GetCortinas() throws Exception {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        try {
+            HttpGet getRequest = new HttpGet(URl_BASE + "cortinas");
             HttpResponse response = httpClient.execute(getRequest);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != 200) {
