@@ -77,11 +77,8 @@
                                         <!-- Error Message -->
                                     </div>
                                     <div class="col-lg-6 login-btm login-button">
-                                        <button type="submit" name="act" value="iniciarSesion" class="btn btn-outline-primary">INICIAR SESION</button>
-
-                                        <div>
-                                            <a href="registro.jsp" class="btn btn-outline-primary">REGISTRARSE</a>
-                                        </div>
+                                        <button type="submit" name="act" value="iniciarSesion" class="btn btn-outline-primary">Iniciar Sesion</button>
+                                        <a href="registro.jsp" class="btn btn-outline-primary">Registro</a>
                                     </div>
                             </form>
                         </div>

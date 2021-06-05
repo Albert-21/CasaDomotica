@@ -43,53 +43,56 @@
                     <div class="col-lg-12 login-form">
                         <div class="col-lg-12 login-form">
                             <form>
-                                </div><div class="form-group">
-                                    <label class="form-control-label">Nombre de usuario</label>
-                                    <input type="text" name="nombreUsuario" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label">Contraseña</label>
-                                    <input type="password" name="contrasena" class="form-control" i>
-                                </div>
-
-                                <div class="col-lg-12 loginbttm">
-                                    <div class="col-lg-6 login-btm login-text">
-                                        <!-- Error Message -->
-                                    </div>
-                                    <div class="col-lg-6 login-btm login-button">
-                                        <div <button name="act" value="guardar" type="submit" class="btn btn-outline-primary">guardar</button>
-                                            <%
-                                                Usuario usuario;
-                                                ApiResource cliente = new ApiResource();
-                                                String act = request.getParameter("act");
-
-                                                if (act == null) {
-                                                } else if (act.equals("guardar")) {
-                                                    if (request.getParameter("nombreUsuario") != null && request.getParameter("contrasena") != null) {
-                                                        try {
-
-                                                            usuario = new Usuario();
-                                                            usuario.setUsuario(request.getParameter("usuario"));
-                                                            usuario.setContrasena(request.getParameter("contrasena"));
-                                                            boolean res = cliente.guardarUsuario(usuario);
-
-                                                            if (res) {
-                                                                response.sendRedirect("/focos.jsp");
-                                                            }
-                                                        } catch (Exception e) {
-                                                        }
-                                                    }
-                                                }
-                                            %>
-                                        </div>
-                                    </div>
-                            </form>
+                        </div><div class="form-group">
+                            <label class="form-control-label">Nombre de usuario</label>
+                            <input type="text" name="nombreUsuario" class="form-control">
                         </div>
+                        <div class="form-group">
+                            <label class="form-control-label">Contraseña</label>
+                            <input type="password" name="contrasena" class="form-control" i>
+                        </div>
+
+                        <div class="col-lg-12 loginbttm">
+                            <div class="col-lg-6 login-btm login-text">
+                                <!-- Error Message -->
+                            </div>
+                            <div class="col-lg-6 login-btm login-button">
+                                <div
+                                    <div></div>
+                                <a href="index.jsp" class="btn btn-outline-primary">Cancelar</a>
+                                <button name="act" value="guardar" type="submit" class="btn btn-outline-primary">Registrar</button>
+                                <%
+                                    Usuario usuario;
+                                    ApiResource cliente = new ApiResource();
+                                    String act = request.getParameter("act");
+
+                                    if (act == null) {
+                                    } else if (act.equals("guardar")) {
+                                        if (request.getParameter("nombreUsuario") != null && request.getParameter("contrasena") != null) {
+                                            try {
+
+                                                usuario = new Usuario();
+                                                usuario.setUsuario(request.getParameter("nombreUsuario"));
+                                                usuario.setContrasena(request.getParameter("contrasena"));
+                                                boolean res = cliente.guardarUsuario(usuario);
+
+                                                if (res) {
+                                                    response.sendRedirect("index.jsp");
+                                                }
+                                            } catch (Exception e) {
+                                            }
+                                        }
+                                    }
+                                %>
+                            </div>
+                        </div>
+                        </form>
                     </div>
-                    <div class="col-lg-3 col-md-2"></div>
                 </div>
+                <div class="col-lg-3 col-md-2"></div>
             </div>
-            <!-- partial -->
+        </div>
+        <!-- partial -->
 
     </body>
 </html>
