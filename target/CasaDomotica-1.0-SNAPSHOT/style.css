@@ -126,4 +126,19 @@ label {
     padding: 0px;
 }
 
-    
+.resultados {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin: 10px 0;
+    text-align: center;
+} 
+
+.resultados h3 {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.resultados-item{
+    background-color: rgb(177, 177, 177);
+}

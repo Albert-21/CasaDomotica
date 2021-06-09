@@ -119,7 +119,11 @@
                             <a class="dropdown-item" href="alarmaCortinas.jsp">Alarma<span class="sr-only"></span></a>
                         </div>
                     </li>
-
+                    <li class="nav-item">
+                        <div>
+                            <a class="nav-link" href="index.jsp" id="navbar" role="button" >Cerrar Sesion</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>

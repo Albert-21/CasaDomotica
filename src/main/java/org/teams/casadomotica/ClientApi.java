@@ -21,7 +21,7 @@ import org.apache.http.util.EntityUtils;
  */
 public class ClientApi {
 
-    private String URl_BASE = "http://localhost:8080/APICasaD/webresources/casadomo/";
+    private String URl_BASE = "http://34.134.23.55:5026/APICasaD-1.0-SNAPSHOT/webresources/casadomo/";
 
     public void PostNewUser(String usuario) throws Exception {
         DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -198,7 +198,7 @@ public class ClientApi {
     public void DeleteAlarma(String id) throws Exception {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
-            HttpDelete deleteRequest = new HttpDelete(URl_BASE + "deletealarma" + id);
+            HttpDelete deleteRequest = new HttpDelete(URl_BASE + "deletealarma?id=" + id);
             HttpResponse response = httpClient.execute(deleteRequest);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != 200) {
@@ -226,10 +226,81 @@ public class ClientApi {
         }
     }
 
-    public String GetAlarmas() throws Exception {
+    public String GetAlarmas(String user) throws Exception {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
-            HttpGet getRequest = new HttpGet(URl_BASE + "alarmas");
+            HttpGet getRequest = new HttpGet(URl_BASE + "alarmas?usuario=" + user);
+            System.out.println(URl_BASE + "alarmas?usuario=" + user);
+            HttpResponse response = httpClient.execute(getRequest);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                throw new RuntimeException("Failed with HTTP error code : " + statusCode);
+            }
+            HttpEntity httpEntity = response.getEntity();
+            String apiOutput = EntityUtils.toString(httpEntity);
+            return apiOutput;
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    public String GetAlarmasFocos(String user) throws Exception {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        try {
+            HttpGet getRequest = new HttpGet(URl_BASE + "alarmasfocos?usuario=" + user);
+            System.out.println(URl_BASE + "alarmas?usuario=" + user);
+            HttpResponse response = httpClient.execute(getRequest);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                throw new RuntimeException("Failed with HTTP error code : " + statusCode);
+            }
+            HttpEntity httpEntity = response.getEntity();
+            String apiOutput = EntityUtils.toString(httpEntity);
+            return apiOutput;
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    public String GetAlarmasCortinas(String user) throws Exception {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        try {
+            HttpGet getRequest = new HttpGet(URl_BASE + "alarmascortinas?usuario=" + user);
+            System.out.println(URl_BASE + "alarmas?usuario=" + user);
+            HttpResponse response = httpClient.execute(getRequest);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                throw new RuntimeException("Failed with HTTP error code : " + statusCode);
+            }
+            HttpEntity httpEntity = response.getEntity();
+            String apiOutput = EntityUtils.toString(httpEntity);
+            return apiOutput;
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    public String GetHumedad() throws Exception {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        try {
+            HttpGet getRequest = new HttpGet(URl_BASE + "humedad");
+            HttpResponse response = httpClient.execute(getRequest);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                throw new RuntimeException("Failed with HTTP error code : " + statusCode);
+            }
+            HttpEntity httpEntity = response.getEntity();
+            String apiOutput = EntityUtils.toString(httpEntity);
+            return apiOutput;
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    public String GetTemperatura() throws Exception {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        try {
+            HttpGet getRequest = new HttpGet(URl_BASE + "temperatura");
             HttpResponse response = httpClient.execute(getRequest);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != 200) {

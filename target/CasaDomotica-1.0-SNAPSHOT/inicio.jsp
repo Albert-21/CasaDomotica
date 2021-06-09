@@ -9,10 +9,18 @@
 <%@page import="org.teams.casadomotica.ApiResource"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%
+    ApiResource cliente = new ApiResource();
+    String humedad = null;
+    String temperatura = cliente.obtenerTemperatura() + "°";
+    humedad = cliente.obtenerHumedad() + "%";
+
+%>
 <!DOCTYPE html>
 <html>
     <head>
-         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -54,9 +62,30 @@
                         </div>
                     </li>
 
+                    <li class="nav-item">
+                        <div>
+                            <a class="nav-link" href="index.jsp" id="navbar" role="button" >Cerrar Sesion</a>
+                        </div>
+                    </li>
+
                 </ul>
             </div>
         </nav>
     </body>
-    
+    <body>
+        <link rel="stylesheet" href="style.css">
+        <div class="contenedor">
+            <div class="resultados">
+                <div class="resultados-item">
+                    <h3>Temperatura</h3>
+                    <input name="act"  value="<%=temperatura%>" size="1" type="text">  
+                </div>
+
+                <div class="resultados-item">
+                    <h3>Humedad</h3>
+                    <input name="act" value="<%=humedad%>" size="1" type="text">                        
+                </div>
+            </div>
+        </div>
+    </body>>
 </html>

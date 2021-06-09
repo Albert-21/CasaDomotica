@@ -152,6 +152,7 @@ public class ApiResource {
         boolean ressultado = false;
         try {
             JSONObject json = new JSONObject(alarma);
+            System.out.println(json.toString());
             service.PostNewAlarma(json.toString());
             ressultado = true;
             return ressultado;
@@ -186,17 +187,82 @@ public class ApiResource {
         return ressultado;
     }
 
-    public List<Alarma> mostrarAlarmas() {
+    public List<Alarma> mostrarAlarmas(String user) {
         listaAlarmas.clear();
         try {
-            JSONArray jsonArray = new JSONArray(service.GetAlarmas());
+            JSONArray jsonArray = new JSONArray(service.GetAlarmas(user));
+            System.out.println(jsonArray.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
-                listaAlarmas.add(new Alarma(jsonArray.getJSONObject(i).getString("id_alarma"), jsonArray.getJSONObject(i).getString("nombre"), jsonArray.getJSONObject(i).getString("estado"), jsonArray.getJSONObject(i).getString("hora_inicio"), jsonArray.getJSONObject(i).getString("hora_fin"), jsonArray.getJSONObject(i).getString("descripcion"), jsonArray.getJSONObject(i).getString("fecha_inicio"), jsonArray.getJSONObject(i).getString("fecha_fin"), jsonArray.getJSONObject(i).getString("id_dispositivo")));
+                listaAlarmas.add(new Alarma(jsonArray.getJSONObject(i).getString("id_alarma"), jsonArray.getJSONObject(i).getString("nombre"),
+                        jsonArray.getJSONObject(i).getString("estado"), jsonArray.getJSONObject(i).getString("hora_inicio"),
+                        jsonArray.getJSONObject(i).getString("hora_fin"), jsonArray.getJSONObject(i).getString("descripcion"),
+                        jsonArray.getJSONObject(i).getString("fecha_inicio"), jsonArray.getJSONObject(i).getString("fecha_fin"),
+                        jsonArray.getJSONObject(i).getString("id_dispositivo")));
             }
         } catch (Exception ex) {
             Logger.getLogger(ApiResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaAlarmas;
+    }
+
+    public List<Alarma> mostrarAlarmasFocos(String user) {
+        listaAlarmas.clear();
+        try {
+            JSONArray jsonArray = new JSONArray(service.GetAlarmasFocos(user));
+            System.out.println(jsonArray.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                listaAlarmas.add(new Alarma(jsonArray.getJSONObject(i).getString("id_alarma"), jsonArray.getJSONObject(i).getString("nombre"),
+                        jsonArray.getJSONObject(i).getString("estado"), jsonArray.getJSONObject(i).getString("hora_inicio"),
+                        jsonArray.getJSONObject(i).getString("hora_fin"), jsonArray.getJSONObject(i).getString("descripcion"),
+                        jsonArray.getJSONObject(i).getString("fecha_inicio"), jsonArray.getJSONObject(i).getString("fecha_fin"),
+                        jsonArray.getJSONObject(i).getString("id_dispositivo")));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ApiResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaAlarmas;
+    }
+
+    public List<Alarma> mostrarAlarmasCortinas(String user) {
+        listaAlarmas.clear();
+        try {
+            JSONArray jsonArray = new JSONArray(service.GetAlarmasCortinas(user));
+            System.out.println(jsonArray.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                listaAlarmas.add(new Alarma(jsonArray.getJSONObject(i).getString("id_alarma"), jsonArray.getJSONObject(i).getString("nombre"),
+                        jsonArray.getJSONObject(i).getString("estado"), jsonArray.getJSONObject(i).getString("hora_inicio"),
+                        jsonArray.getJSONObject(i).getString("hora_fin"), jsonArray.getJSONObject(i).getString("descripcion"),
+                        jsonArray.getJSONObject(i).getString("fecha_inicio"), jsonArray.getJSONObject(i).getString("fecha_fin"),
+                        jsonArray.getJSONObject(i).getString("id_dispositivo")));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ApiResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaAlarmas;
+    }
+
+    public String obtenerHumedad() {
+        try {
+            System.out.println("");
+            JSONObject json = new JSONObject(service.GetHumedad());
+            String humedad = String.valueOf(json.getInt("valor"));
+            return humedad;
+        } catch (Exception ex) {
+            Logger.getLogger(ApiResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public String obtenerTemperatura() {
+        try {
+            System.out.println("");
+            JSONObject json = new JSONObject(service.GetTemperatura());
+            String temperatura = String.valueOf(json.getInt("valor"));
+            return temperatura;
+        } catch (Exception ex) {
+            Logger.getLogger(ApiResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

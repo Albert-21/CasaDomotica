@@ -1,6 +1,7 @@
 package org.teams.casadomotica;
 
 public class Alarma {
+
     private String id_alarma;
     private String nombre;
     private String estado;
@@ -13,8 +14,6 @@ public class Alarma {
 
     public Alarma() {
     }
-    
-    
 
     public Alarma(String id_alarma, String nombre, String estado, String hora_inicio, String hora_fin, String descripcion, String fecha_inicio, String fecha_fin, String id_dispositivo) {
         this.id_alarma = id_alarma;
@@ -27,8 +26,18 @@ public class Alarma {
         this.fecha_fin = fecha_fin;
         this.id_dispositivo = id_dispositivo;
     }
-    
-    
+
+    public Alarma(String id_alarma, String nombre, String estado, String descripcion, String fecha_inicio, String fecha_fin) {
+        this.id_alarma = id_alarma;
+        this.nombre = nombre;
+        this.estado = estado;
+        this.hora_inicio = hora_inicio;
+        this.hora_fin = hora_fin;
+        this.descripcion = descripcion;
+        this.fecha_inicio = fecha_inicio;
+        this.fecha_fin = fecha_fin;
+        this.id_dispositivo = id_dispositivo;
+    }
 
     public String getId_alarma() {
         return id_alarma;
@@ -101,5 +110,5 @@ public class Alarma {
     public void setId_dispositivo(String id_dispositivo) {
         this.id_dispositivo = id_dispositivo;
     }
-    
+
 }

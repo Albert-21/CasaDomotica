@@ -16,24 +16,22 @@
     String act = request.getParameter("act");
 
     if (act == null) {
+        lista = cliente.mostrarAlarmasFocos(session.getAttribute("user").toString());
     } else if (act.equals("agregar")) {
-        if (request.getParameter("idFoco") != null && request.getParameter("idAlarma") != null &&  request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
+        if (request.getParameter("idFoco") != null && request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
             try {
                 Alarma alarma = new Alarma();
                 alarma.setId_dispositivo(request.getParameter("idFoco"));
-                alarma.setId_dispositivo(request.getParameter("idAlarma"));
                 alarma.setNombre(request.getParameter("nombre"));
                 alarma.setDescripcion(request.getParameter("descripcion"));
-                alarma.setEstado("activa");
-                String fecha_Completa = request.getParameter("fecha");
-                alarma.setFecha_inicio(fecha_Completa.substring(0, 13));
-                alarma.setFecha_fin(fecha_Completa.substring(13, 23));
+                alarma.setEstado("OFF");
                 alarma.setHora_inicio(request.getParameter("horaEncendido"));
                 alarma.setHora_fin(request.getParameter("horaApagado"));
-
+                String fecha_Completa = request.getParameter("fecha");
+                alarma.setFecha_inicio(fecha_Completa.substring(0, 10));
+                alarma.setFecha_fin(fecha_Completa.substring(13, 23));
                 cliente.guardarAlarma(alarma);
-                lista = cliente.mostrarAlarmas();
-
+                lista = cliente.mostrarAlarmasFocos(session.getAttribute("user").toString());
             } catch (Exception e) {
             }
         }
@@ -45,13 +43,18 @@
     window.alert("Se elimino correctamente");
 </script>
 <%
-            }else{
+} else {
 %>
 <script>
-    window.alert("Ocurrio un problema");
+    window.alert("Se elimino correctamente");
 </script>
 <%
-                
+            }
+        } else if (act.equals("actualizar")) {
+            try {
+                System.out.println("Actualizando...");
+                lista = cliente.mostrarAlarmasFocos(session.getAttribute("user").toString());
+            } catch (Exception e) {
             }
         }
     }
@@ -80,7 +83,7 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" >Inicio</a>
+            <a class="navbar-brand" href="inicio.jsp">Inicio</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -95,7 +98,6 @@
                             <a class="dropdown-item" href="alarmaFocos.jsp">Alarma<span class="sr-only"></span></a>
                         </div>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cortinas
@@ -105,7 +107,11 @@
                             <a class="dropdown-item" href="alarmaCortinas.jsp">Alarma<span class="sr-only"></span></a>
                         </div>
                     </li>
-
+                    <li class="nav-item">
+                        <div>
+                            <a class="nav-link" href="index.jsp" id="navbar" role="button" >Cerrar Sesion</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -120,9 +126,6 @@
                         <!-- primera columna -->
                         <div class="col-md-4">
                             <input  class="form-control"type="text" name="idFoco" placeholder="Id Foco">
-                        </div>
-                        <div class="col-md-4">
-                            <input  class="form-control"type="text" name="idAlarma" placeholder="Id Alarma">
                         </div>
                         <!-- segunda columna -->
                         <div class="col-md-4">
@@ -139,18 +142,18 @@
                 <div class="form-group">
                     <div class="row">
                         <script>
-                            $(document).ready(function () {
-                                $(function () {
-                                    $('input[name="fecha"]').daterangepicker({
-                                        "startDate": "01/01/2021",
-                                        "endDate": "17/01/2021",
-                                        opens: 'center',
-                                        locale: {
-                                            format: 'DD/MM/YYYY'
-                                        }
-                                    });
-                                });
-                            });
+    $(document).ready(function () {
+        $(function () {
+            $('input[name="fecha"]').daterangepicker({
+                "startDate": "01/01/2021",
+                "endDate": "17/01/2021",
+                opens: 'center',
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            });
+        });
+    });
                         </script>
                         <div>
                             <form autocomplete="off">
@@ -164,8 +167,8 @@
 
                         </div>
                         <div>                                 
-                            <p>Hora Apagado<input type="time" name="horaApagado" form="form-control"></p>
-                            <p>Hora Encendido<input type="time" name="horaEncendido" form="form-control"></p>
+                            <p>Hora Apagado<input  class="form-control"type="text" name="horaApagado" placeholder="Formato24Horas">
+                            <p>Hora Encendido<input  class="form-control"type="text" name="horaEncendido" placeholder="Formato24Horas">
                         </div>
                         <br>
 
@@ -173,6 +176,7 @@
                     </div>
                     <div>
                         <button class="btn btn-success" type="submit" name="act" value="agregar">Agregar</button>
+                        <button class="btn btn-success" type="submit" name="act" value="actualizar">Actualizar</button>
                     </div>
                     <br>
 
@@ -191,7 +195,6 @@
                             <th scope="col">ID Alarma</th>
                             <th scope="col">ID Foco</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Estado</th>
                             <th scope="col">Descripción</th>
                             <th scope="col">Fechas Repetir</th>
                             <th scope="col">Horario</th>
@@ -206,7 +209,6 @@
                                     out.print("<th scope=row>" + elem.getId_alarma() + "</th>");
                                     out.print("<td>" + elem.getId_dispositivo() + "</td>");
                                     out.print("<td>" + elem.getNombre() + "</td>");
-                                    out.print("<td>" + elem.getEstado() + "</td>");
                                     out.print("<td>" + elem.getDescripcion() + "</td>");
                                     out.print("<td>" + elem.getFecha_inicio() + " - " + elem.getFecha_fin() + "</td>");
                                     out.print("<td>" + elem.getHora_inicio() + " - " + elem.getHora_fin() + "</td>");

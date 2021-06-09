@@ -22,15 +22,15 @@
         if (request.getParameter("nombre") != null && request.getParameter("descripcion") != null) {
             try {
 
-                    Dispositivo dispositivo = new Dispositivo();
-                    dispositivo.setId(request.getParameter("100"));
-                    dispositivo.setNombre(request.getParameter("nombre"));
-                    dispositivo.setDescripcion(request.getParameter("descripcion"));
-                    dispositivo.setEstado("OFF");
-                    dispositivo.setTipo("Cortina");
-                    dispositivo.setUsuario(session.getAttribute("user").toString());
-                    cliente.guardarDispositivo(dispositivo);
-                    lista = cliente.mostrarFocos();
+                Dispositivo dispositivo = new Dispositivo();
+                dispositivo.setId(request.getParameter("100"));
+                dispositivo.setNombre(request.getParameter("nombre"));
+                dispositivo.setDescripcion(request.getParameter("descripcion"));
+                dispositivo.setEstado("OFF");
+                dispositivo.setTipo("Cortina");
+                dispositivo.setUsuario(session.getAttribute("user").toString());
+                cliente.guardarDispositivo(dispositivo);
+                lista = cliente.mostrarCortinas();
 
             } catch (Exception e) {
             }
@@ -38,16 +38,16 @@
     } else if (act.equals("encender")) {
         if (request.getParameter("idCortina") != null) {
             try {
-                
-                    Dispositivo dispositivo = new Dispositivo();
-                    dispositivo.setId(request.getParameter("idCortina"));
-                    dispositivo.setNombre(request.getParameter("nombre"));
-                    dispositivo.setDescripcion(request.getParameter("descripcion"));
-                    dispositivo.setEstado("ON");
-                    dispositivo.setTipo("Cortina");
-                    dispositivo.setUsuario(session.getAttribute("user").toString());
-                    cliente.actualizarEstadoDispositivo(dispositivo);
-                    lista = cliente.mostrarFocos();
+
+                Dispositivo dispositivo = new Dispositivo();
+                dispositivo.setId(request.getParameter("idCortina"));
+                dispositivo.setNombre(request.getParameter("nombre"));
+                dispositivo.setDescripcion(request.getParameter("descripcion"));
+                dispositivo.setEstado("ON");
+                dispositivo.setTipo("Cortina");
+                dispositivo.setUsuario(session.getAttribute("user").toString());
+                cliente.actualizarEstadoDispositivo(dispositivo);
+                lista = cliente.mostrarCortinas();
 
             } catch (Exception e) {
             }
@@ -62,7 +62,7 @@
             dispositivo.setTipo("Cortina");
             dispositivo.setUsuario(session.getAttribute("user").toString());
             cliente.actualizarEstadoDispositivo(dispositivo);
-            lista = cliente.mostrarFocos();
+            lista = cliente.mostrarCortinas();
         } catch (Exception e) {
         }
     } else if (act.equals("actualizar")) {
@@ -93,8 +93,8 @@
         <title>Cortinas</title>
     </head>
     <body>
-         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" >Inicio</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="inicio.jsp">Inicio</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -109,7 +109,7 @@
                             <a class="dropdown-item" href="alarmaFocos.jsp">Alarma<span class="sr-only"></span></a>
                         </div>
                     </li>
-                    
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cortinas
@@ -119,7 +119,11 @@
                             <a class="dropdown-item" href="alarmaCortinas.jsp">Alarma<span class="sr-only"></span></a>
                         </div>
                     </li>
-                    
+                    <li class="nav-item">
+                        <div>
+                            <a class="nav-link" href="index.jsp" id="navbar" role="button" >Cerrar Sesion</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -139,7 +143,7 @@
                         <div class="col-md-4">
                             <input  class="form-control"type="text" name="nombre" placeholder="Nombre">
                         </div>
-                         <!-- tercera columna -->
+                        <!-- tercera columna -->
                         <div class="col-md-4">
                             <input  class="form-control"type="text" name="descripcion" placeholder="Descripcion">
                         </div>
@@ -147,7 +151,7 @@
                 </div>
                 <!-- segunda fila -->
                 <div class="form-group">
-                     <br>
+                    <br>
                     <div>
                         <button class="btn btn-success" name="act" value="anadir" type="submit">Anadir</button>
 
@@ -170,19 +174,18 @@
                 </tr>
             </thead>
             <tbody>
-                <%
-                        if (lista != null) {
-                                for (Dispositivo elem : lista) {
-                             out.print("<tr>");
-                             out.print("<th scope=row>" + elem.getId() + "</th>");
-                             out.print("<td>" + elem.getNombre() + "</td>");
-                             out.print("<td>" + elem.getEstado() + "</td>");
-                             out.print("<td>" + elem.getDescripcion() + "</td>");
-                             out.println("</tr>");
-                            }
-
+                <%                    if (lista != null) {
+                        for (Dispositivo elem : lista) {
+                            out.print("<tr>");
+                            out.print("<th scope=row>" + elem.getId() + "</th>");
+                            out.print("<td>" + elem.getNombre() + "</td>");
+                            out.print("<td>" + elem.getEstado() + "</td>");
+                            out.print("<td>" + elem.getDescripcion() + "</td>");
+                            out.println("</tr>");
                         }
-                     %>
+
+                    }
+                %>
             </tbody>
         </table>
     </body>

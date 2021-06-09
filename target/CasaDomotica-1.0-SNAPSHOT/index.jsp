@@ -21,7 +21,7 @@
 
                 if (usu != null) {
                     session.setAttribute("user", usu.getUsuario());
-                    response.sendRedirect("focos.jsp");
+                    response.sendRedirect("inicio.jsp");
                 }
             } catch (Exception e) {
             }

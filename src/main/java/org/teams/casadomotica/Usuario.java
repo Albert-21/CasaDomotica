@@ -6,9 +6,7 @@ public class Usuario {
     private String contrasena;
 
     public Usuario() {
-    }
-    
-    
+    }    
 
     public String getUsuario() {
         return usuario;
